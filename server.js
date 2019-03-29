@@ -32,6 +32,7 @@ require('./controllers/alunos_controller.js')(router);
 require('./controllers/curso_controller.js')(router);
 require('./controllers/matriculas_controller.js')(router);
 
+
 app.use("/api", router);
 
 if (process.env.NODE_ENV === "production") {
@@ -42,6 +43,9 @@ if (process.env.NODE_ENV === "production") {
   })
 }
 
+
 const API_PORT = process.env.PORT || 3001;
 
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
+
+module.exports = { router };
