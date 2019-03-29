@@ -1,6 +1,6 @@
 import Dashboard from "views/Dashboard/Dashboard.jsx";
 import Alunos from "views/Alunos/Alunos.jsx";
-import TableList from "views/TableList/TableList.jsx";
+import Matriculas from "views/Matriculas/Matriculas.jsx";
 import Cursos from "views/Cursos/Cursos.jsx";
 
 var dashRoutes = [
@@ -26,7 +26,7 @@ var dashRoutes = [
     path: "/matriculas",
     name: "Matriculas",
     icon: "files_paper",
-    component: TableList
+    component: Matriculas
   },
   { redirect: true, path: "/", pathTo: "/dashboard", name: "Dashboard" }
 ];
