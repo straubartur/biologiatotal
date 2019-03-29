@@ -46,20 +46,20 @@ class Alunos extends React.Component {
   }
 
   getAlunoFromDb = () => {
-    fetch("http://localhost:3001/api/alunos")
+    fetch("/api/alunos")
       .then(data => data.json())
       .then(res => this.setState({ alunos: res.data }));
   };
 
   createAluno = () => {
-    axios.post("http://localhost:3001/api/aluno", {
+    axios.post("/api/aluno", {
       nome: this.state.nome,
       email: this.state.email
     }).then(() => this.getAlunoFromDb());
   };
 
   deleteAlunoFromDb = id => {
-    axios.delete(`http://localhost:3001/api/aluno/${id}`, {
+    axios.delete(`/api/aluno/${id}`, {
       data: {
         id
       }
@@ -68,7 +68,7 @@ class Alunos extends React.Component {
 
   updateAlunoFromDb = id => {
     const updatedAluno = this.state.alunos.find(aluno => aluno._id === id);
-    axios.post(`http://localhost:3001/api/updateAluno/${id}`, {
+    axios.post(`/api/updateAluno/${id}`, {
       id,
       update: {
         nome: updatedAluno.nome,

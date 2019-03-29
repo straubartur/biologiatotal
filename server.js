@@ -53,6 +53,6 @@ if (process.env.NODE_ENV === "production") {
   })
 }
 
-const API_PORT = process.env.PORT || 3002;
+const API_PORT = process.env.PORT || 3001;
 
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
