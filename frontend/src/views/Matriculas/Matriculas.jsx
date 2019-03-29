@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import Select from "react-select";
 import {
   Table,
   Button,
@@ -14,68 +15,75 @@ import {
 } from "reactstrap";
 
 
-class Cursos extends React.Component {
+class Matriculas extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       visible: true,
-      titulo: "",
-      descricao: "",
+      curso: null,
+      aluno: null,
       intervalIsSet: false,
-      cursos: []
+      matriculas: [],
+      cursos: [],
+      alunos: [],
     };
   }
 
   componentDidMount() {
-    this.getCursoFromDb();
+    this.getMatriculaFromDb();
+    fetch("http://localhost:3001/api/alunos")
+      .then(data => data.json())
+      .then(res => this.setState({ alunos: res.data }));
+    fetch("http://localhost:3001/api/cursos")
+      .then(data => data.json())
+      .then(res => this.setState({ cursos: res.data }));
     if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.getCursoFromDb(), 20000);
+      let interval = setInterval(this.getMatriculaFromDb(), 20000);
       this.setState({ intervalIsSet: interval });
     }
   }
 
-  editarCurso = (e, id, key) => {
-    const valor = e.target.value;
+  editarMatricula = (e, id, key) => {
+    const valor = e.value;
     this.setState(prevState => ({
-      cursos: prevState.cursos.map(curso => (
-        curso._id === id ? {...curso, [key]: valor} : curso)
+      matriculas: prevState.matriculas.map(matricula => (
+        matricula._id === id ? {...matricula, [key]: valor} : matricula)
         )
     }))
   }
 
-  getCursoFromDb = () => {
-    fetch("http://localhost:3001/api/cursos")
+  getMatriculaFromDb = () => {
+    fetch("http://localhost:3001/api/matriculas")
       .then(data => data.json())
-      .then(res => this.setState({ cursos: res.data }));
-    fetch("http://localhost:3001/api/alunos")
-      .then(data => data.json())
-      .then(res => this.setState({ alunos: res.data }));
+      .then(res => this.setState({ matriculas: res.data }));
   };
 
-  createCurso = () => {
-    axios.post("http://localhost:3001/api/curso", {
-      titulo: this.state.titulo,
-      descricao: this.state.descricao
-    }).then(() => this.getCursoFromDb());
+  createMatricula = () => {
+    axios.post("http://localhost:3001/api/matricula", {
+      curso: this.state.curso.value,
+      aluno: this.state.aluno.value
+    }).then(() => this.getMatriculaFromDb());
   };
 
-  deleteCursoFromDb = id => {
-    axios.delete(`http://localhost:3001/api/curso/${id}`, {
+  deleteMatriculaFromDb = id => {
+    axios.delete(`http://localhost:3001/api/matricula/${id}`, {
       data: {
         _id: id
       }
-    }).then(() => this.getCursoFromDb())
+    }).then(() => this.getMatriculaFromDb());
   }
 
-  updateCursoFromDb = id => {
-    const updatedCurso = this.state.cursos.find(curso => curso._id === id);
-    axios.post(`http://localhost:3001/api/updateCurso/${id}`, {
+  updateMatriculaFromDb = id => {
+    const updatedMatricula = this.state.matriculas.find(
+      matricula => matricula._id === id
+    );
+    axios.post(`http://localhost:3001/api/updateMatricula/${id}`, {
       id,
       update: {
-        titulo: updatedCurso.titulo,
-        descricao: updatedCurso.descricao
+        aluno: updatedMatricula.aluno,
+        curso: updatedMatricula.curso
       }
-    }).then(() => this.getCursoFromDb());
+    }).then(() => this.getMatriculaFromDb());
   };
 
   componentWillUnmount() {
@@ -85,7 +93,20 @@ class Cursos extends React.Component {
     }
   }
 
+  handleChange = (e, key) => {
+    this.setState({ [key]: e });
+  }
+
   render() {
+    const cursosOptions = this.state.cursos.map(curso => ({
+      label: curso.titulo,
+      value: curso._id
+    }))
+    const alunoOptions = this.state.alunos.map(aluno => ({
+      label: aluno.nome,
+      value: aluno._id
+    }))
+    console.log(this.state)
     return (
       <div style={{ marginTop: "100px"}}>
         <h3>
@@ -94,31 +115,27 @@ class Cursos extends React.Component {
         <div>
           <Form>
             <FormGroup>
-              <Label for="exampleTitulo">Titulo</Label>
-              <Input
-                value={this.state.titulo}
-                onChange={e => this.setState({ titulo: e.target.value })}
-                type="text-field"
-                name="titulo"
-                id="exampleTitulo"
-                placeholder="titulo"
+              <Label for="exampleSelect">Curso</Label>
+              <Select
+                id="exampleSelect"
+                value={this.state.curso}
+                onChange={e => this.handleChange(e, "curso")}
+                options={cursosOptions}
               />
             </FormGroup>
             <FormGroup>
-              <Label for="descricaoField">Descrição</Label>
-              <Input
-                type="text-field"
-                name="descricao"
-                onChange={e => this.setState({ descricao: e.target.value })}
-                value={this.state.descricao}
-                id="descricaoField"
-                placeholder="Descrição"
-              />
+                <Label for="exampleSelect">Aluno</Label>
+                <Select
+                  id="exampleSelect"
+                  value={this.state.aluno}
+                  onChange={e => this.handleChange(e, "aluno")}
+                  options={alunoOptions}
+                />
             </FormGroup>
             <Row>
               <Col xs={10} />
               <Col xs={2}>
-                <Button color="success" onClick={this.createCurso}>Create +</Button>
+                <Button color="success" onClick={this.createMatricula}>Create +</Button>
               </Col>
             </Row>
           </Form>
@@ -129,34 +146,32 @@ class Cursos extends React.Component {
               <thead>
                 <tr>
                   <th className="text-center">#</th>
-                  <th>Titulo</th>
-                  <th>Descricao</th>
+                  <th>Aluno</th>
+                  <th>Curso</th>
                   <th />
                 </tr>
               </thead>
               <tbody>
-                {this.state.cursos.map((curso, index) => (
-                  <tr key={curso._id}>
+                {this.state.matriculas.map((matricula, index) => (
+                  <tr key={matricula._id}>
                     <td className="text-center">
                       {index + 1}
                     </td>
                     <td>
-                    <Input
-                      value={curso.titulo}
-                      onChange={e => this.editarCurso(e, curso._id, "titulo")}
-                      type="text-field"
-                      name="titulo"
-                      placeholder="Titulo"
-                    />
+                      <Select
+                        id="exampleSelect"
+                        value={alunoOptions.find(aluno => aluno.value === matricula.aluno)}
+                        onChange={e => this.editarMatricula(e, matricula._id, "aluno")}
+                        options={alunoOptions}
+                      />
                     </td>
                     <td>
-                      <Input
-                        value={curso.descricao}
-                        onChange={e => this.editarCurso(e, curso._id, "descricao")}
-                        type="text-field"
-                        name="descricao"
-                        placeholder="Descricao"
-                      />
+                    <Select
+                      id="exampleSelect"
+                      value={cursosOptions.find(curso => curso.value === matricula.curso)}
+                      onChange={e => this.editarMatricula(e, matricula._id, "curso")}
+                      options={cursosOptions}
+                    />
                     </td>
                     <td />
                     <td className="text-right">
@@ -164,12 +179,12 @@ class Cursos extends React.Component {
                         icon
                         color="success"
                         size="sm"
-                        onClick={() => this.updateCursoFromDb(curso._id)}
+                        onClick={() => this.updateMatriculaFromDb(matricula._id)}
                       >
                         <i className="now-ui-icons ui-2_settings-90"></i>
                       </Button>{` `}
                       <Button
-                        onClick={() => this.deleteCursoFromDb(curso._id)}
+                        onClick={() => this.deleteMatriculaFromDb(matricula._id)}
                         icon
                         color="danger"
                         size="sm"
@@ -189,4 +204,4 @@ class Cursos extends React.Component {
   }
 }
 
-export default Cursos;
+export default Matriculas;

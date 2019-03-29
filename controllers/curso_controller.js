@@ -1,8 +1,8 @@
 const Curso = require("../models/curso");
+const { ObjectId } = require('mongodb');
 
 exports.get = (req, res) => {
   Curso.find((err, data) => {
-    console.log(data)
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
@@ -10,7 +10,7 @@ exports.get = (req, res) => {
 
 exports.update = (req, res) => {
   const { id, update } = req.body;
-  Curso.findOneAndUpdate(id, update, err => {
+  Curso.findOneAndUpdate({ _id: ObjectId(id)}, update, err => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
   });
@@ -18,7 +18,7 @@ exports.update = (req, res) => {
 
 exports.delete = (req, res) => {
   const { id } = req.body;
-  Curso.findOneAndDelete(id, err => {
+  Curso.findOneAndDelete({ _id: ObjectId(id)}, err => {
     if (err) return res.send(err);
     return res.json({ success: true });
   });

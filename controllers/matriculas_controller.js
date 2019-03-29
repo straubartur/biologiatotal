@@ -1,4 +1,5 @@
 const Matricula = require("../models/matricula");
+const { ObjectId } = require('mongodb');
 
 exports.get = (req, res) => {
   Matricula.find((err, data) => {
@@ -9,7 +10,8 @@ exports.get = (req, res) => {
 
 exports.post = (req, res) => {
   const { id, update } = req.body;
-  Matricula.findOneAndUpdate(id, update, err => {
+  console.log(update)
+  Matricula.findOneAndUpdate({ _id: ObjectId(id)}, update, err => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
   });
@@ -17,7 +19,8 @@ exports.post = (req, res) => {
 
 exports.delete = (req, res) => {
   const { id } = req.body;
-  Matricula.findOneAndDelete(id, err => {
+  console.log(id)
+  Matricula.findOneAndDelete(ObjectId(id), err => {
     if (err) return res.send(err);
     return res.json({ success: true, id });
   });
@@ -25,16 +28,16 @@ exports.delete = (req, res) => {
 
 exports.create = (req, res) => {
   let matricula = new Matricula();
-  const { nome, email } = req.body;
-  if (!nome || !email) {
+  const { curso, aluno } = req.body;
+  if (!curso || !aluno) {
     return res.json({
       success: false,
       error: "INVALID INPUTS"
     });
   }
 
-  matricula.nome = nome;
-  matricula.email = email
+  matricula.curso = curso;
+  matricula.aluno = aluno
   matricula.save((err, data )=> {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data });

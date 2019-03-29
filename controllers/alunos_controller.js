@@ -1,8 +1,8 @@
 const Aluno = require("../models/aluno");
+const { ObjectId } = require('mongodb');
 
 exports.get = (req, res) => {
   Aluno.find((err, data) => {
-    console.log(data)
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
@@ -10,7 +10,7 @@ exports.get = (req, res) => {
 
 exports.post = (req, res) => {
   const { id, update } = req.body;
-  Aluno.findOneAndUpdate(id, update, err => {
+  Aluno.findOneAndUpdate({ _id: ObjectId(id)}, update, err => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
   });
@@ -18,7 +18,7 @@ exports.post = (req, res) => {
 
 exports.delete = (req, res) => {
   const { id } = req.body;
-  Aluno.findOneAndDelete(id, err => {
+  Aluno.findOneAndDelete({ _id: ObjectId(id)}, err => {
     if (err) return res.send(err);
     return res.json({ success: true });
   });

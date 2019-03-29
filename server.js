@@ -38,10 +38,10 @@ router.post("/updateCurso/:id", cursoController.update)
 router.delete("/curso/:id", cursoController.delete)
 router.post("/curso", cursoController.create)
 
-// router.get("/getMatriculas", matriculasController.get)
-// router.post("/updateMatricula", matriculasController.update)
-// router.delete("/deleteMatricula", matriculasController.delete)
-// router.post("/createMatricula", matriculasController.create)
+router.get("/matriculas", matriculasController.get)
+router.post("/updateMatricula/:id", matriculasController.post)
+router.delete("/matricula/:id", matriculasController.delete)
+router.post("/matricula", matriculasController.create)
 
 app.use("/api", router);
 
