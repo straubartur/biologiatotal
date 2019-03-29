@@ -1,42 +1,45 @@
 const Aluno = require("../models/aluno");
 const { ObjectId } = require('mongodb');
 
-exports.get = (req, res) => {
-  Aluno.find((err, data) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true, data: data });
-  });
-}
+module.exports = router => {
 
-exports.post = (req, res) => {
-  const { id, update } = req.body;
-  Aluno.findOneAndUpdate({ _id: ObjectId(id)}, update, err => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
-}
-
-exports.delete = (req, res) => {
-  const { id } = req.body;
-  Aluno.findOneAndDelete({ _id: ObjectId(id)}, err => {
-    if (err) return res.send(err);
-    return res.json({ success: true });
-  });
-}
-
-exports.create = (req, res) => {
-  let aluno = new Aluno();
-  const { id, nome, email } = req.body;
-  if (!nome || !email) {
-    return res.json({
-      success: false,
-      error: "INVALID INPUTS"
+  router.get("/alunos", (req, res) => {
+    Aluno.find((err, data) => {
+      if (err) return res.json({ success: false, error: err });
+      return res.json({ success: true, data: data });
     });
-  }
-  aluno.nome = nome;
-  aluno.email = email
-  aluno.save((err, data )=> {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true, data });
-  });
+  })
+
+  router.post("/updateAluno/:id", (req, res) => {
+    const { id, update } = req.body;
+    Aluno.findOneAndUpdate({ _id: ObjectId(id)}, update, err => {
+      if (err) return res.json({ success: false, error: err });
+      return res.json({ success: true });
+    });
+  })
+
+  router.delete("/aluno/:id", (req, res) => {
+    const { id } = req.body;
+    Aluno.findOneAndDelete({ _id: ObjectId(id)}, err => {
+      if (err) return res.send(err);
+      return res.json({ success: true });
+    });
+  })
+
+  router.post("/aluno", (req, res) => {
+    let aluno = new Aluno();
+    const { id, nome, email } = req.body;
+    if (!nome || !email) {
+      return res.json({
+        success: false,
+        error: "INVALID INPUTS"
+      });
+    }
+    aluno.nome = nome;
+    aluno.email = email
+    aluno.save((err, data )=> {
+      if (err) return res.json({ success: false, error: err });
+      return res.json({ success: true, data });
+    });
+  })
 }

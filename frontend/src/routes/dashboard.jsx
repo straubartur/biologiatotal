@@ -1,15 +1,8 @@
-import Dashboard from "views/Dashboard/Dashboard.jsx";
 import Alunos from "views/Alunos/Alunos.jsx";
 import Matriculas from "views/Matriculas/Matriculas.jsx";
 import Cursos from "views/Cursos/Cursos.jsx";
 
 var dashRoutes = [
-  {
-    path: "/dashboard",
-    name: "Dashboard",
-    icon: "design_app",
-    component: Dashboard
-  },
   {
     path: "/alunos",
     name: "Alunos",
@@ -28,6 +21,6 @@ var dashRoutes = [
     icon: "files_paper",
     component: Matriculas
   },
-  { redirect: true, path: "/", pathTo: "/dashboard", name: "Dashboard" }
+  { redirect: true, path: "/", pathTo: "/matriculas", name: "Dashboard" }
 ];
 export default dashRoutes;

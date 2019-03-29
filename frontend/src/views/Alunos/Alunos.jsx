@@ -3,18 +3,15 @@ import axios from "axios";
 import {
   Table,
   Button,
-  CardTitle,
   CardBody,
   Card,
-  CardHeader,
   Row,
   Col,
   Form,
   FormGroup,
   Label,
-  Input,
+  Input
 } from "reactstrap";
-
 
 class Alunos extends React.Component {
   constructor(props) {
@@ -41,8 +38,8 @@ class Alunos extends React.Component {
     this.setState(prevState => ({
       alunos: prevState.alunos.map(aluno => (
         aluno._id === id ? {...aluno, [key]: valor} : aluno)
-        )
-    }))
+      )
+    }));
   }
 
   getAlunoFromDb = () => {
@@ -117,7 +114,12 @@ class Alunos extends React.Component {
             <Row>
               <Col xs={10} />
               <Col xs={2}>
-                <Button color="success" onClick={this.createAluno}>Create +</Button>
+                <Button
+                  color="success"
+                  onClick={this.createAluno}
+                >
+                  Create +
+                </Button>
               </Col>
             </Row>
           </Form>
@@ -140,13 +142,13 @@ class Alunos extends React.Component {
                       {index + 1}
                     </td>
                     <td>
-                    <Input
-                      value={aluno.nome}
-                      onChange={e => this.editarAluno(e, aluno._id, "nome")}
-                      type="email"
-                      name="nome"
-                      placeholder="Nome"
-                    />
+                      <Input
+                        value={aluno.nome}
+                        onChange={e => this.editarAluno(e, aluno._id, "nome")}
+                        type="email"
+                        name="nome"
+                        placeholder="Nome"
+                      />
                     </td>
                     <td>
                       <Input
@@ -158,7 +160,9 @@ class Alunos extends React.Component {
                         placeholder="email"
                       />
                     </td>
-                    <td>{aluno.dataNasc}</td>
+                    <td>
+                      {aluno.dataNasc}
+                    </td>
                     <td className="text-right">
                       <Button
                         icon

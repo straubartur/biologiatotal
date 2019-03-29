@@ -7,13 +7,11 @@ import {
   Form,
   FormGroup,
   Label,
-  Input,
   Card,
   CardBody,
   Row,
-  Col,
+  Col
 } from "reactstrap";
-
 
 class Matriculas extends React.Component {
   constructor(props) {
@@ -25,7 +23,7 @@ class Matriculas extends React.Component {
       intervalIsSet: false,
       matriculas: [],
       cursos: [],
-      alunos: [],
+      alunos: []
     };
   }
 
@@ -48,7 +46,7 @@ class Matriculas extends React.Component {
     this.setState(prevState => ({
       matriculas: prevState.matriculas.map(matricula => (
         matricula._id === id ? {...matricula, [key]: valor} : matricula)
-        )
+      )
     }))
   }
 
@@ -101,12 +99,11 @@ class Matriculas extends React.Component {
     const cursosOptions = this.state.cursos.map(curso => ({
       label: curso.titulo,
       value: curso._id
-    }))
+    }));
     const alunoOptions = this.state.alunos.map(aluno => ({
       label: aluno.nome,
       value: aluno._id
-    }))
-    console.log(this.state)
+    }));
     return (
       <div style={{ marginTop: "100px"}}>
         <h3>
@@ -124,18 +121,23 @@ class Matriculas extends React.Component {
               />
             </FormGroup>
             <FormGroup>
-                <Label for="exampleSelect">Aluno</Label>
-                <Select
-                  id="exampleSelect"
-                  value={this.state.aluno}
-                  onChange={e => this.handleChange(e, "aluno")}
-                  options={alunoOptions}
-                />
+              <Label for="exampleSelect">Aluno</Label>
+              <Select
+                id="exampleSelect"
+                value={this.state.aluno}
+                onChange={e => this.handleChange(e, "aluno")}
+                options={alunoOptions}
+              />
             </FormGroup>
             <Row>
               <Col xs={10} />
               <Col xs={2}>
-                <Button color="success" onClick={this.createMatricula}>Create +</Button>
+                <Button
+                  color="success"
+                  onClick={this.createMatricula}
+                >
+                  Create +
+                </Button>
               </Col>
             </Row>
           </Form>
@@ -166,12 +168,12 @@ class Matriculas extends React.Component {
                       />
                     </td>
                     <td>
-                    <Select
-                      id="exampleSelect"
-                      value={cursosOptions.find(curso => curso.value === matricula.curso)}
-                      onChange={e => this.editarMatricula(e, matricula._id, "curso")}
-                      options={cursosOptions}
-                    />
+                      <Select
+                        id="exampleSelect"
+                        value={cursosOptions.find(curso => curso.value === matricula.curso)}
+                        onChange={e => this.editarMatricula(e, matricula._id, "curso")}
+                        options={cursosOptions}
+                      />
                     </td>
                     <td />
                     <td className="text-right">
@@ -193,7 +195,7 @@ class Matriculas extends React.Component {
                       </Button>
                     </td>
                   </tr>
-                  ))
+                ))
                 }
               </tbody>
             </Table>

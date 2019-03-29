@@ -28,20 +28,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger("dev"));
 
-router.get("/alunos", alunosController.get)
-router.post("/updateAluno/:id", alunosController.post)
-router.delete("/aluno/:id", alunosController.delete)
-router.post("/aluno", alunosController.create)
-
-router.get("/cursos", cursoController.get)
-router.post("/updateCurso/:id", cursoController.update)
-router.delete("/curso/:id", cursoController.delete)
-router.post("/curso", cursoController.create)
-
-router.get("/matriculas", matriculasController.get)
-router.post("/updateMatricula/:id", matriculasController.post)
-router.delete("/matricula/:id", matriculasController.delete)
-router.post("/matricula", matriculasController.create)
+require('./controllers/alunos_controller.js')(router);
+require('./controllers/curso_controller.js')(router);
+require('./controllers/matriculas_controller.js')(router);
 
 app.use("/api", router);
 

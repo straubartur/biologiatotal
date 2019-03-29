@@ -10,9 +10,8 @@ import {
   Card,
   CardBody,
   Row,
-  Col,
+  Col
 } from "reactstrap";
-
 
 class Cursos extends React.Component {
   constructor(props) {
@@ -39,14 +38,14 @@ class Cursos extends React.Component {
     this.setState(prevState => ({
       cursos: prevState.cursos.map(curso => (
         curso._id === id ? {...curso, [key]: valor} : curso)
-        )
+      )
     }))
   }
 
   getCursoFromDb = () => {
     fetch("http://localhost:3001/api/cursos")
-      .then(data => data.json())
-      .then(res => this.setState({ cursos: res.data }));
+    .then(data => data.json())
+    .then(res => this.setState({ cursos: res.data }));
   };
 
   createCurso = () => {
@@ -115,7 +114,12 @@ class Cursos extends React.Component {
             <Row>
               <Col xs={10} />
               <Col xs={2}>
-                <Button color="success" onClick={this.createCurso}>Create +</Button>
+                <Button
+                  color="success"
+                  onClick={this.createCurso}
+                >
+                  Create +
+                </Button>
               </Col>
             </Row>
           </Form>
@@ -138,13 +142,13 @@ class Cursos extends React.Component {
                       {index + 1}
                     </td>
                     <td>
-                    <Input
-                      value={curso.titulo}
-                      onChange={e => this.editarCurso(e, curso._id, "titulo")}
-                      type="text-field"
-                      name="titulo"
-                      placeholder="Titulo"
-                    />
+                      <Input
+                        value={curso.titulo}
+                        onChange={e => this.editarCurso(e, curso._id, "titulo")}
+                        type="text-field"
+                        name="titulo"
+                        placeholder="Titulo"
+                      />
                     </td>
                     <td>
                       <Input
