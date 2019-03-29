@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "private": true,
   "main": "dist/index.js",
-  "homepage": "https://creativetimofficial.github.io/now-ui-dashboard-react/#/dashboard",
+  "homepage": ".",
   "dependencies": {
     "@types/googlemaps": "3.30.12",
     "@types/markerclustererplus": "2.1.33",

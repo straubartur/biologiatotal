@@ -49,10 +49,10 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("frontend/build"))
 
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "build", "index.html"))
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
   })
 }
 
-const API_PORT = process.env.PORT || 3001;
+const API_PORT = process.env.PORT || 3002;
 
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
