@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+
 import {
   Table,
   Button,
@@ -132,7 +133,7 @@ class Alunos extends React.Component {
                   <th className="text-center">#</th>
                   <th>Name</th>
                   <th>Email</th>
-                  <th>Nascimento</th>
+                  <th />
                 </tr>
               </thead>
               <tbody>

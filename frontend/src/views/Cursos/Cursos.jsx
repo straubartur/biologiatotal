@@ -58,7 +58,7 @@ class Cursos extends React.Component {
   deleteCursoFromDb = id => {
     axios.delete(`http://localhost:3001/api/curso/${id}`, {
       data: {
-        _id: id
+        id
       }
     }).then(() => this.getCursoFromDb())
   }
