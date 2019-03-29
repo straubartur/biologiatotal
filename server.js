@@ -7,8 +7,8 @@ const init = require("./controllers/init.controller.js")
 const alunosController = require("./controllers/alunos_controller.js")
 const cursoController = require("./controllers/curso_controller.js")
 const matriculasController = require("./controllers/matriculas_controller.js")
+const path = require("path");
 
-const API_PORT = 3001;
 const app = express();
 app.use(cors());
 const router = express.Router();
@@ -44,4 +44,15 @@ router.post("/curso", cursoController.create)
 // router.post("/createMatricula", matriculasController.create)
 
 app.use("/api", router);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("frontend/build"))
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+  })
+}
+
+const API_PORT = process.env.port || 3001;
+
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
