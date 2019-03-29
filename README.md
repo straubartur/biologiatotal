@@ -5,7 +5,7 @@ This appication was built with node.js (v10.15.1), express.js (v4.16.4)
 
 ```bash
 
-visit: https://github.com/straubartur/biologiatotal.git
+visit: https://salty-citadel-98097.herokuapp.com/alunos
 
 ```
 
